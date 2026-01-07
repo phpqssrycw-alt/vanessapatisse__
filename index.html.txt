@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commande – Vanessa Pâtisse</title>
+
+<style>
+:root{
+  --bg:#fff3f7;
+  --card:#ffffff;
+  --text:#1a1a1a;
+  --muted:#6a6a6a;
+  --border:#f2d7e2;
+  --accent:#d81b60;
+  --accent2:#ff5c8a;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:18px;
+}
+
+.logoWrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:10px 0 14px;
+}
+.logoWrap img{
+  width:min(220px, 70vw);
+  height:auto;
+  display:block;
+}
+
+h1{
+  font-size:22px;
+  margin:10px 0 14px;
+  text-align:left;
+}
+
+.banner{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  padding:12px 14px;
+  border-radius:14px;
+  font-weight:900;
+  font-size:14px;
+  text-align:center;
+  margin-bottom:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 8px 18px rgba(216,27,96,.08);
+  margin-bottom:14px;
+}
+label{
+  font-weight:800;
+  font-size:14px;
+  display:block;
+  margin-bottom:6px;
+}
+select,input,textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.12);
+  font-size:16px;
+  background:#fff;
+}
+textarea{min-height:80px}
+.hidden{display:none}
+
+.btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  border:none;
+  border-radius:16px;
+  padding:14px;
+  font-size:16px;
+  font-weight:900;
+}
+.btn:disabled{opacity:.55}
+
+.smallHint{
+  margin-top:8px;
+  font-size:12.5px;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- ✅ LOGO (mets le fichier à la racine du repo avec ce nom) -->
+  <div class="logoWrap">
+    <img src="logo-vanessa-patisse.png" alt="Vanessa Pâtisse">
+  </div>
+
+  <div class="banner">
+    Commandes minimum <u>48 heures</u> à l’avance
+  </div>
+
+  <h1>Commander un gâteau</h1>
+
+  <div class="card">
+    <label>Catégorie</label>
+    <select id="category">
+      <option value="">Choisir…</option>
+      <option>Layer Cake</option>
+      <option>Gâteau roulé (bûche)</option>
+      <option>Gâteaux créoles</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <label>Date de retrait</label>
+    <input type="date" id="date">
+
+    <label style="margin-top:10px">Créneau</label>
+    <select id="slot">
+      <option value="">Choisir…</option>
+      <option>12h00 – 14h00</option>
+      <option>16h00 – 18h00</option>
+    </select>
+
+    <div class="smallHint" id="dateHint"></div>
+  </div>
+
+  <!-- LAYER CAKE -->
+  <div class="card hidden" id="layer">
+    <label>Taille</label>
+    <select id="layerSize">
+      <option value="">Choisir…</option>
+      <option>15 cm (6–8 parts)</option>
+      <option>20 cm (10–12 parts)</option>
+      <option>30 cm (18–24 parts)</option>
+    </select>
+
+    <label style="margin-top:10px">Base</label>
+    <select id="layerBase">
+      <option value="">Choisir…</option>
+      <option>Nature</option>
+      <option>Chocolat</option>
+    </select>
+
+    <label style="margin-top:10px">Goût</label>
+    <select id="layerFlavor"></select>
+
+    <div class="smallHint"><b>À partir de 45 €</b></div>
+  </div>
+
+  <!-- BÛCHE -->
+  <div class="card hidden" id="buche">
+    <div class="smallHint"><b>Bûche ~30 cm</b> — 8 à 10 parts • <b>25 €</b></div>
+
+    <label style="margin-top:10px">Parfum</label>
+    <select id="bucheFlavor">
+      <option value="">Choisir…</option>
+      <option>Passion</option>
+      <option>Coco</option>
+      <option>Framboise</option>
+      <option>Chocolat</option>
+    </select>
+  </div>
+
+  <!-- CRÉOLES -->
+  <div class="card hidden" id="creole">
+    <div class="smallHint"><b>34 cm</b> — 12 à 15 parts</div>
+
+    <label style="margin-top:10px">Choix</label>
+    <select id="creoleType">
+      <option value="">Choisir…</option>
+      <option>Gâteau à l’ananas</option>
+      <option>Galette créole</option>
+    </select>
+
+    <div id="galetteOpts" class="hidden">
+      <label style="margin-top:10px">Parfum</label>
+      <select id="creoleFlavor1">
+        <option value="">Choisir…</option>
+        <option>Coco</option>
+        <option>Crème coco</option>
+        <option>À l’ananas</option>
+        <option>Goyave</option>
+      </select>
+
+      <label style="margin-top:10px">
+        <input type="checkbox" id="twoFlavors"> 2 parfums (+3 €)
+      </label>
+
+      <select id="creoleFlavor2" class="hidden">
+        <option value="">Choisir…</option>
+        <option>Coco</option>
+        <option>Crème coco</option>
+        <option>À l’ananas</option>
+        <option>Goyave</option>
+      </select>
+    </div>
+
+    <div class="smallHint" id="creolePrice"><b>35 €</b></div>
+  </div>
+
+  <div class="card">
+    <label>Nom</label>
+    <input id="name" placeholder="(optionnel)">
+
+    <label style="margin-top:10px">Message (optionnel)</label>
+    <textarea id="notes"></textarea>
+  </div>
+
+  <button class="btn" id="btn" disabled>Commander sur WhatsApp</button>
+
+</div>
+
+<script>
+const wa="33603696752";
+
+// règle 48h silencieuse
+function leadTimeOk(){
+  if(!date.value) return false;
+  const selected = new Date(date.value + "T00:00:00");
+  const min = new Date(Date.now() + 48*60*60*1000);
+  const minDay = new Date(min.getFullYear(), min.getMonth(), min.getDate());
+  return selected >= minDay;
+}
+
+// date min affichée
+const min = new Date(Date.now() + 48*60*60*1000);
+date.min = min.toISOString().split("T")[0];
+
+const layerFlavors = {
+  Nature:[
+    "Framboise","Passion","Coco","Chocolat","Chocolat praliné",
+    "Chantilly nature","Chantilly & morceaux d’abricots","Chantilly & morceaux de cocktail de fruits"
+  ],
+  Chocolat:[
+    "Chocolat","Chocolat praliné","Chantilly nature",
+    "Chantilly + chocolat","Chantilly + chocolat praliné"
+  ]
+};
+
+category.onchange = ()=>{
+  layer.classList.add("hidden");
+  buche.classList.add("hidden");
+  creole.classList.add("hidden");
+
+  if(category.value==="Layer Cake") layer.classList.remove("hidden");
+  if(category.value==="Gâteau roulé (bûche)") buche.classList.remove("hidden");
+  if(category.value==="Gâteaux créoles") creole.classList.remove("hidden");
+
+  check();
+};
+
+layerBase.onchange = ()=>{
+  const list = layerFlavors[layerBase.value] || [];
+  layerFlavor.innerHTML =
+    '<option value="">Choisir…</option>' +
+    list.map(v=>`<option>${v}</option>`).join("");
+  check();
+};
+
+creoleType.onchange = ()=>{
+  galetteOpts.classList.toggle("hidden", creoleType.value!=="Galette créole");
+  creolePrice.innerHTML =
+    creoleType.value==="Galette créole"
+      ? "<b>35 €</b> (38 € si 2 parfums)"
+      : "<b>35 €</b>";
+  // reset si pas galette
+  if(creoleType.value!=="Galette créole"){
+    twoFlavors.checked = false;
+    creoleFlavor2.classList.add("hidden");
+    creoleFlavor1.value = "";
+    creoleFlavor2.value = "";
+  }
+  check();
+};
+
+twoFlavors.onchange = ()=>{
+  creoleFlavor2.classList.toggle("hidden", !twoFlavors.checked);
+  if(!twoFlavors.checked) creoleFlavor2.value = "";
+  check();
+};
+
+function check(){
+  if(date.value && !leadTimeOk()){
+    dateHint.textContent = "Merci de choisir une date au moins 48h à l’avance.";
+  } else {
+    dateHint.textContent = "";
+  }
+
+  const baseOk = category.value && date.value && slot.value && leadTimeOk();
+  let productOk = false;
+
+  if(category.value==="Layer Cake"){
+    productOk = layerSize.value && layerBase.value && layerFlavor.value;
+  } else if(category.value==="Gâteau roulé (bûche)"){
+    productOk = bucheFlavor.value;
+  } else if(category.value==="Gâteaux créoles"){
+    if(creoleType.value==="Gâteau à l’ananas"){
+      productOk = true;
+    } else if(creoleType.value==="Galette créole"){
+      if(!creoleFlavor1.value) productOk = false;
+      else if(twoFlavors.checked && !creoleFlavor2.value) productOk = false;
+      else productOk = true;
+    }
+  }
+
+  btn.disabled = !(baseOk && productOk);
+}
+
+["date","slot","layerSize","layerBase","layerFlavor","bucheFlavor","creoleFlavor1","creoleFlavor2"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.onchange = check;
+});
+
+btn.onclick = ()=>{
+  let msg = `Bonjour 😊, je souhaite commander :\n`;
+  msg += `Catégorie : ${category.value}\n`;
+  msg += `Retrait : ${date.value} (${slot.value})\n`;
+
+  if(category.value==="Layer Cake"){
+    msg += `Taille : ${layerSize.value}\n`;
+    msg += `Base : ${layerBase.value}\n`;
+    msg += `Goût : ${layerFlavor.value}\n`;
+    msg += `Prix : à partir de 45 €\n`;
+  }
+
+  if(category.value==="Gâteau roulé (bûche)"){
+    msg += `Parfum : ${bucheFlavor.value}\n`;
+    msg += `Prix : 25 €\n`;
+  }
+
+  if(category.value==="Gâteaux créoles"){
+    if(creoleType.value==="Gâteau à l’ananas"){
+      msg += `Produit : Gâteau à l’ananas\n`;
+      msg += `Prix : 35 €\n`;
+    } else {
+      msg += `Produit : Galette créole\n`;
+      if(twoFlavors.checked){
+        msg += `Parfums : ${creoleFlavor1.value} + ${creoleFlavor2.value}\n`;
+        msg += `Prix : 38 €\n`;
+      } else {
+        msg += `Parfum : ${creoleFlavor1.value}\n`;
+        msg += `Prix : 35 €\n`;
+      }
+    }
+  }
+
+  if(name.value) msg += `Nom : ${name.value}\n`;
+  if(notes.value) msg += `Message : ${notes.value}\n`;
+
+  window.location.href = `https://wa.me/${wa}?text=` + encodeURIComponent(msg);
+};
+
+check();
+</script>
+
+</body>
+</html>
