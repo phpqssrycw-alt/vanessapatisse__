@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commande — Vanessa Pâtisse</title>
+
+<style>
+:root{
+  /* Palette style Emergent (comme ta capture) */
+  --bg:#f6f1ec;          /* beige très clair */
+  --card:#ffffff;
+  --text:#111111;
+  --muted:#6b6b6b;
+  --line:#e9e1da;
+
+  --rose:#c97b86;        /* carré logo */
+  --roseLine:#cda1aa;    /* bordure accent (léger) */
+  --gold:#f1c84b;        /* pastille prix */
+  --pill:#f3ece6;        /* pastilles neutres */
+
+  --btn:#111111;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{
+  max-width:760px;
+  margin:auto;
+  padding:22px 16px 34px;
+}
+
+/* Bandeau 48h (discret) */
+.topnote{
+  text-align:center;
+  font-weight:800;
+  color:#fff;
+  background:#111;
+  padding:10px 12px;
+  border-radius:14px;
+  font-size:14px;
+  margin-bottom:16px;
+}
+
+/* Header centré comme capture */
+.hero{
+  text-align:center;
+  margin:18px 0 18px;
+}
+.logoBox{
+  width:86px;height:86px;
+  margin:0 auto 14px;
+  border-radius:20px;
+  background:var(--rose);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+}
+.logoBox img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:12px;
+  filter:brightness(1.2) contrast(1.1);
+}
+.hero h1{
+  font-family: Georgia, "Times New Roman", Times, serif; /* premium serif comme visuel */
+  font-weight:700;
+  font-size:34px;
+  margin:0 0 6px;
+}
+.hero p{
+  margin:0;
+  color:var(--muted);
+  font-size:16px;
+}
+
+/* Card principale */
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:18px;
+  border:1px solid var(--line);
+  box-shadow:0 14px 34px rgba(0,0,0,.08);
+}
+.grid{display:grid; gap:14px}
+.two{display:grid; gap:12px}
+@media(min-width:720px){ .two{ grid-template-columns: 1fr 1fr; } }
+
+label{
+  font-weight:800;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.req{color:#c34a4a; font-weight:900}
+
+/* Petite icône à gauche du label (optionnel) */
+.ico{
+  width:18px;height:18px;
+  display:inline-flex;
+  align-items:center;justify-content:center;
+  color:#7a5a60;
+}
+
+select,input,textarea{
+  width:100%;
+  padding:14px 14px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-size:16px;
+  outline:none;
+}
+select:focus,input:focus,textarea:focus{
+  border-color:var(--roseLine);
+  box-shadow:0 0 0 4px rgba(201,123,134,.15);
+}
+textarea{min-height:95px; resize:vertical}
+
+.sectionBox{
+  background:#fbf8f6;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+}
+
+/* Pastilles */
+.pills{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+.pill{
+  background:var(--pill);
+  border:1px solid var(--line);
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+  color:#3b3b3b;
+}
+.pillGold{
+  background:var(--gold);
+  border-color:rgba(0,0,0,.05);
+  color:#1a1a1a;
+}
+
+/* Checkbox */
+.chk{
+  display:flex; align-items:center; gap:10px;
+  font-size:14px; font-weight:700;
+  color:#2b2b2b;
+  margin:10px 0 0;
+}
+.chk input{ width:18px; height:18px; padding:0; }
+
+.hint{font-size:13px;color:var(--muted);margin-top:6px}
+.smallHint{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+/* Bouton */
+.btn{
+  width:100%;
+  padding:15px;
+  border-radius:18px;
+  border:none;
+  background:var(--btn);
+  color:#fff;
+  font-weight:900;
+  font-size:16px;
+}
+.btn:disabled{opacity:.45}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="topnote">Commandes minimum <u>48 heures</u> à l’avance</div>
+
+  <div class="hero">
+    <div class="logoBox">
+      <img src="logo-vanessa-patisse.png" alt="Vanessa Pâtisse">
+    </div>
+    <h1>Vanessa Pâtisse</h1>
+    <p>Commande directe via WhatsApp</p>
+  </div>
+
+  <div class="card">
+    <div class="grid">
+
+      <!-- Catégorie + quantité -->
+      <div class="two">
+        <div>
+          <label>
+            <span class="ico">☰</span> Catégorie <span class="req">*</span>
+          </label>
+          <select id="category">
+            <option value="">Choisir…</option>
+            <option>Layer Cake</option>
+            <option>Gâteau roulé (bûche)</option>
+            <option>Gâteaux créoles</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Quantité <span class="req">*</span></label>
+          <input id="qty" type="number" min="1" value="1">
+        </div>
+      </div>
+
+      <!-- Date + créneau -->
+      <div class="two">
+        <div>
+          <label>📅 Date de retrait <span class="req">*</span></label>
+          <input id="pickupDate" type="date">
+          <div class="smallHint" id="dateHint"></div>
+        </div>
+
+        <div>
+          <label>⏰ Créneau de retrait <span class="req">*</span></label>
+          <select id="pickup">
+            <option value="">Choisir un horaire…</option>
+            <option>12h00 – 14h00</option>
+            <option>16h00 – 18h00</option>
+          </select>
+          <div class="hint">Merci de venir sur le créneau choisi</div>
+        </div>
+      </div>
+
+      <!-- LAYER CAKE -->
+      <div id="layer" class="sectionBox" style="display:none">
+        <div class="two">
+          <div>
+            <label>Taille <span class="req">*</span></label>
+            <select id="layerSize">
+              <option value="">Choisir…</option>
+              <option>15 cm (6–8 parts)</option>
+              <option>20 cm (10–12 parts)</option>
+              <option>30 cm (18–24 parts)</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Base <span class="req">*</span></label>
+            <select id="layerBase">
+              <option value="">Choisir…</option>
+              <option>Nature</option>
+              <option>Chocolat</option>
+            </select>
+          </div>
+        </div>
+
+        <label style="margin-top:10px">Goût <span class="req">*</span></label>
+        <select id="layerFlavor">
+          <option value="">Choisir…</option>
+        </select>
+
+        <div class="pills" style="margin-top:10px">
+          <span class="pill pillGold">À partir de 45 €</span>
+        </div>
+      </div>
+
+      <!-- BÛCHE -->
+      <div id="buche" class="sectionBox" style="display:none">
+        <div class="pills">
+          <span class="pill">≈ 30 cm</span>
+          <span class="pill">≈ 8–10 parts</span>
+          <span class="pill pillGold">25 €</span>
+        </div>
+
+        <label>Parfum <span class="req">*</span></label>
+        <select id="bucheFlavor">
+          <option value="">Choisir…</option>
+          <option>Passion</option>
+          <option>Coco</option>
+          <option>Framboise</option>
+          <option>Chocolat</option>
+        </select>
+      </div>
+
+      <!-- CRÉOLES -->
+      <div id="creole" class="sectionBox" style="display:none">
+        <div class="pills">
+          <span class="pill">34 cm</span>
+          <span class="pill">12–15 parts</span>
+          <span class="pill pillGold" id="creolePillPrice">35 € (38 € si 2 parfums)</span>
+        </div>
+
+        <label>Choix <span class="req">*</span></label>
+        <select id="creoleType">
+          <option value="">Choisir…</option>
+          <option>Gâteau à l’ananas</option>
+          <option>Galette créole</option>
+        </select>
+
+        <!-- Options uniquement pour Galette créole -->
+        <div id="galetteOptions" style="display:none; margin-top:12px">
+          <label>Parfum <span class="req">*</span></label>
+          <select id="creoleFlavor1">
+            <option value="">Choisir…</option>
+            <option>Coco</option>
+            <option>Crème coco</option>
+            <option>À l’ananas</option>
+            <option>Goyave</option>
+          </select>
+
+          <div class="chk">
+            <input type="checkbox" id="twoFlavors">
+            <span>2 parfums (+3 €)</span>
+          </div>
+
+          <select id="creoleFlavor2" style="display:none; margin-top:10px">
+            <option value="">Choisir…</option>
+            <option>Coco</option>
+            <option>Crème coco</option>
+            <option>À l’ananas</option>
+            <option>Goyave</option>
+          </select>
+        </div>
+
+        <div class="smallHint" style="margin-top:10px">
+          Gâteau à l’ananas : parfum déjà inclus (pas d’option)
+        </div>
+      </div>
+
+      <!-- Infos client -->
+      <div>
+        <label>Nom</label>
+        <input id="name" placeholder="">
+      </div>
+
+      <div>
+        <label>Précisions</label>
+        <textarea id="notes" placeholder="Informations complémentaires sur votre commande…"></textarea>
+      </div>
+
+      <button id="send" class="btn" disabled>Commander sur WhatsApp</button>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const wa = "33603696752";
+
+const category = document.getElementById("category");
+const send = document.getElementById("send");
+const pickup = document.getElementById("pickup");
+const pickupDate = document.getElementById("pickupDate");
+const dateHint = document.getElementById("dateHint");
+
+const layerFlavorsNature = [
+  "Framboise","Passion","Coco","Chocolat","Chocolat praliné",
+  "Chantilly nature","Chantilly & morceaux d’abricots","Chantilly & morceaux de cocktail de fruits"
+];
+
+const layerFlavorsChoco = [
+  "Chocolat","Chocolat praliné","Chantilly nature",
+  "Chantilly + chocolat","Chantilly + chocolat praliné"
+];
+
+// ✅ Règle 48h (silencieuse)
+function leadTimeOk(){
+  if(!pickupDate.value) return false;
+  const selected = new Date(pickupDate.value + "T00:00:00");
+  const min = new Date(Date.now() + 48*60*60*1000);
+  const minDay = new Date(min.getFullYear(), min.getMonth(), min.getDate());
+  return selected >= minDay;
+}
+
+// date min visible dans le calendrier
+const min = new Date(Date.now() + 48*60*60*1000);
+pickupDate.min = min.toISOString().split("T")[0];
+
+function showSection(){
+  document.getElementById("layer").style.display = category.value==="Layer Cake" ? "block" : "none";
+  document.getElementById("buche").style.display = category.value==="Gâteau roulé (bûche)" ? "block" : "none";
+  document.getElementById("creole").style.display = category.value==="Gâteaux créoles" ? "block" : "none";
+}
+
+category.onchange = ()=>{
+  showSection();
+  checkReady();
+};
+
+document.getElementById("layerBase").onchange = (e)=>{
+  const list = e.target.value==="Nature" ? layerFlavorsNature : layerFlavorsChoco;
+  document.getElementById("layerFlavor").innerHTML =
+    `<option value="">Choisir…</option>` + list.map(v=>`<option>${v}</option>`).join("");
+  checkReady();
+};
+
+document.getElementById("creoleType").onchange = (e)=>{
+  const isGalette = e.target.value==="Galette créole";
+  document.getElementById("galetteOptions").style.display = isGalette ? "block" : "none";
+  // reset parfums si gâteau à l’ananas
+  if(!isGalette){
+    document.getElementById("twoFlavors").checked = false;
+    document.getElementById("creoleFlavor1").value = "";
+    document.getElementById("creoleFlavor2").value = "";
+    document.getElementById("creoleFlavor2").style.display = "none";
+  }
+  checkReady();
+};
+
+document.getElementById("twoFlavors").onchange = (e)=>{
+  document.getElementById("creoleFlavor2").style.display = e.target.checked ? "block" : "none";
+  if(!e.target.checked) document.getElementById("creoleFlavor2").value = "";
+  checkReady();
+};
+
+function checkReady(){
+  // hint date discret
+  if(pickupDate.value && !leadTimeOk()){
+    dateHint.textContent = "Merci de choisir une date au moins 48h à l’avance.";
+  } else {
+    dateHint.textContent = "";
+  }
+
+  const baseOk = category.value && pickup.value && pickupDate.value && leadTimeOk();
+  let productOk = true;
+
+  if(category.value==="Layer Cake"){
+    productOk = !!(
+      document.getElementById("layerSize").value &&
+      document.getElementById("layerBase").value &&
+      document.getElementById("layerFlavor").value
+    );
+  }
+
+  if(category.value==="Gâteau roulé (bûche)"){
+    productOk = !!document.getElementById("bucheFlavor").value;
+  }
+
+  if(category.value==="Gâteaux créoles"){
+    const type = document.getElementById("creoleType").value;
+    if(!type) productOk = false;
+    else if(type==="Gâteau à l’ananas"){
+      productOk = true; // pas de parfum
+    } else {
+      // galette
+      const f1 = document.getElementById("creoleFlavor1").value;
+      const two = document.getElementById("twoFlavors").checked;
+      const f2 = document.getElementById("creoleFlavor2").value;
+      productOk = !!f1 && (!two || !!f2);
+    }
+  }
+
+  send.disabled = !(baseOk && productOk);
+}
+
+["pickup","pickupDate","qty","layerSize","layerBase","layerFlavor","bucheFlavor","creoleType","creoleFlavor1","creoleFlavor2"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.onchange = checkReady;
+});
+
+send.onclick = ()=>{
+  if(send.disabled) return;
+
+  const qty = document.getElementById("qty").value;
+  let msg = `Bonjour 😊, je souhaite commander :\n`;
+  msg += `Catégorie : ${category.value}\n`;
+  msg += `Quantité : ${qty}\n`;
+  msg += `Date de retrait : ${pickupDate.value}\n`;
+  msg += `Créneau : ${pickup.value}\n`;
+
+  if(category.value==="Layer Cake"){
+    msg += `Taille : ${document.getElementById("layerSize").value}\n`;
+    msg += `Base : ${document.getElementById("layerBase").value}\n`;
+    msg += `Goût : ${document.getElementById("layerFlavor").value}\n`;
+    msg += `Prix : à partir de 45 €\n`;
+  }
+
+  if(category.value==="Gâteau roulé (bûche)"){
+    msg += `Parfum : ${document.getElementById("bucheFlavor").value}\n`;
+    msg += `Prix : 25 €\n`;
+  }
+
+  if(category.value==="Gâteaux créoles"){
+    const type = document.getElementById("creoleType").value;
+    msg += `Produit : ${type}\n`;
+
+    if(type==="Galette créole"){
+      const two = document.getElementById("twoFlavors").checked;
+      const f1 = document.getElementById("creoleFlavor1").value;
+      const f2 = document.getElementById("creoleFlavor2").value;
+      msg += two ? `Parfums : ${f1} + ${f2}\nPrix : 38 €\n` : `Parfum : ${f1}\nPrix : 35 €\n`;
+    } else {
+      msg += `Prix : 35 €\n`;
+    }
+  }
+
+  const name = document.getElementById("name").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+  if(name) msg += `Nom : ${name}\n`;
+  if(notes) msg += `Précisions : ${notes}\n`;
+
+  window.location.href = `https://wa.me/${wa}?text=` + encodeURIComponent(msg);
+};
+
+// init
+showSection();
+checkReady();
+</script>
+
+</body>
+</html>
