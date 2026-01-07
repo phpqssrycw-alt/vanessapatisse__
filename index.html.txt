@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Commande — Vanessa Pâtisse</title>
+  <style>
+    :root{
+      --bg:#faf7f4;
+      --card:#ffffff;
+      --text:#151515;
+      --muted:#5a5a5a;
+      --border:rgba(0,0,0,.12);
+      --soft:rgba(0,0,0,.06);
+      --radius:18px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .wrap{ max-width:920px; margin:0 auto; padding:18px 16px 56px; }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--soft);
+      box-shadow:0 10px 28px rgba(0,0,0,.06);
+      border-radius:var(--radius);
+      padding:18px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .logo{
+      width:58px; height:58px; border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:#111;              /* ✅ fond noir pour rendre ton logo blanc visible */
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+      flex:0 0 auto;
+      box-shadow:0 10px 22px rgba(0,0,0,.12);
+    }
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:8px;
+    }
+
+    h1{ margin:0 0 6px; font-size:22px; }
+    .sub{ margin:0; color:var(--muted); line-height:1.35; }
+    .sub48{
+      margin:6px 0 0;
+      color:#111;
+      font-weight:900;
+    }
+
+    .grid{ display:grid; gap:12px; margin-top:14px; }
+    .two{ display:grid; gap:12px; grid-template-columns:1fr; }
+    @media(min-width:720px){ .two{ grid-template-columns:1fr 1fr; } }
+
+    label{ display:block; font-weight:900; font-size:14px; margin-bottom:6px; }
+    select,input,textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.18);
+      font-size:16px;
+      background:#fff;
+      outline:none;
+    }
+    textarea{ min-height:92px; resize:vertical; }
+
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#f2ece7;
+      border:1px solid var(--soft);
+      font-size:13px;
+      margin-top:6px;
+      color:#2b2b2b;
+    }
+
+    .priceLine{
+      margin-top:10px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(0,0,0,.16);
+      background:#fbfaf8;
+      font-size:14px;
+      line-height:1.35;
+    }
+
+    .btn{
+      width:100%;
+      padding:14px 14px;
+      border:none;
+      border-radius:16px;
+      background:#111;
+      color:#fff;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .btn:disabled{ opacity:.55; cursor:not-allowed; }
+
+    .divider{ height:1px; background:var(--soft); margin:6px 0 0; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="card">
+      <div class="brand">
+        <div class="logo">
+          <img src="logo-vanessa-patisse.png" alt="Vanessa Pâtisse" />
+        </div>
+        <div>
+          <h1>Commande — Vanessa Pâtisse</h1>
+          <p class="sub">Sélectionne ton produit, puis clique sur <b>Commander sur WhatsApp</b>.</p>
+          <p class="sub48">⏳ Commande minimum 48h à l’avance</p>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- ===================== 1) CATÉGORIE + QTY ===================== -->
+        <div class="two">
+          <div>
+            <label for="category">Catégorie</label>
+            <select id="category">
+              <option value="" selected disabled>Choisir…</option>
+              <option value="Layer Cake">Layer Cake</option>
+              <option value="Gâteau roulé (bûche)">Gâteau roulé (bûche)</option>
+              <option value="Gâteaux créoles">Gâteaux créoles</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="qty">Quantité</label>
+            <input id="qty" type="number" min="1" value="1" />
+          </div>
+        </div>
+
+        <!-- ===================== 2) OPTIONS PRODUIT ===================== -->
+
+        <!-- LAYER CAKE : Base -> Goût -> Taille -> Prix -->
+        <div id="layerBlock" style="display:none;">
+          <div class="two">
+            <div>
+              <label for="layerBase">Base</label>
+              <select id="layerBase">
+                <option value="" selected disabled>Choisir…</option>
+                <option value="Nature">Nature</option>
+                <option value="Chocolat">Chocolat</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="layerFlavor">Goût / Garniture</label>
+              <select id="layerFlavor" disabled>
+                <option value="" selected disabled>Choisir d’abord une base…</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two" style="margin-top:12px;">
+            <div>
+              <label for="layerSize">Taille (diamètre)</label>
+              <select id="layerSize">
+                <option value="" selected disabled>Choisir…</option>
+                <option value="15">15 cm</option>
+                <option value="20">20 cm</option>
+                <option value="30">30 cm</option>
+              </select>
+              <div id="layerParts" class="pill" style="display:none;"></div>
+            </div>
+
+            <div>
+              <div class="priceLine" style="height:100%;">
+                <b>Prix :</b> à partir de <b>45 €</b> (selon taille et options)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BÛCHE -->
+        <div id="bucheBlock" style="display:none;">
+          <div class="pill">≈ 30 cm</div>
+          <div class="pill">≈ 8–10 parts</div>
+          <div class="pill"><b>25 €</b></div>
+
+          <div style="margin-top:12px;">
+            <label for="bucheFlavor">Parfum</label>
+            <select id="bucheFlavor">
+              <option value="" selected disabled>Choisir…</option>
+              <option value="Passion">Passion</option>
+              <option value="Coco">Coco</option>
+              <option value="Framboise">Framboise</option>
+              <option value="Chocolat">Chocolat</option>
+            </select>
+          </div>
+
+          <div class="priceLine"><b>Prix :</b> <b>25 €</b></div>
+        </div>
+
+        <!-- GÂTEAUX CRÉOLES -->
+        <div id="creoleBlock" style="display:none;">
+          <div class="pill">≈ 34 cm</div>
+          <div class="pill">≈ 12–15 parts</div>
+
+          <div style="margin-top:10px;">
+            <label for="creoleType">Choix</label>
+            <select id="creoleType">
+              <option value="" selected disabled>Choisir…</option>
+              <option value="Gâteau à l’ananas">Gâteau à l’ananas</option>
+              <option value="Galette créole">Galette créole</option>
+            </select>
+          </div>
+
+          <!-- Options uniquement si Galette créole -->
+          <div id="galetteOptions" style="display:none; margin-top:12px;">
+            <div class="two">
+              <div>
+                <label for="creoleFlavor1">Parfum (Galette créole)</label>
+                <select id="creoleFlavor1">
+                  <option value="" selected disabled>Choisir…</option>
+                  <option value="Coco">Coco</option>
+                  <option value="Crème coco">Crème coco</option>
+                  <option value="Ananas">Ananas</option>
+                  <option value="Goyave">Goyave</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display:flex; align-items:center; gap:10px; font-weight:900; margin-top:24px;">
+                  <input id="twoFlavors" type="checkbox" style="width:20px; height:20px; margin:0;" />
+                  2 parfums (+3 €)
+                </label>
+              </div>
+            </div>
+
+            <div id="flavor2Block" style="margin-top:10px; display:none;">
+              <label for="creoleFlavor2">2ᵉ parfum</label>
+              <select id="creoleFlavor2">
+                <option value="" selected disabled>Choisir…</option>
+                <option value="Coco">Coco</option>
+                <option value="Crème coco">Crème coco</option>
+                <option value="Ananas">Ananas</option>
+                <option value="Goyave">Goyave</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="creolePriceLine" class="priceLine" style="margin-top:12px;">
+            <b>Prix :</b> <b>35 €</b>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ===================== INFOS CLIENT ===================== -->
+        <div class="two">
+          <div>
+            <label for="name">Nom</label>
+            <input id="name" type="text" placeholder="Ex : Vanessa" />
+          </div>
+          <div>
+            <label for="customerPhone">Téléphone (optionnel)</label>
+            <input id="customerPhone" type="tel" placeholder="Ex : 06…" />
+          </div>
+        </div>
+
+        <!-- ===================== RETRAIT ===================== -->
+        <div class="two">
+          <div>
+            <label for="pickupDate">Date de retrait</label>
+            <input id="pickupDate" type="date" />
+          </div>
+          <div>
+            <label for="pickupSlot">Créneau de retrait</label>
+            <select id="pickupSlot">
+              <option value="" selected disabled>Choisir…</option>
+              <option value="12h00 – 14h00">12h00 – 14h00</option>
+              <option value="16h00 – 18h00">16h00 – 18h00</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="notes">Précisions (optionnel)</label>
+          <textarea id="notes" placeholder="Ex : inscription sur le gâteau, allergies, etc."></textarea>
+        </div>
+
+        <button id="btn" class="btn" disabled>Commander sur WhatsApp</button>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  // WhatsApp
+  const WHATSAPP_NUMBER = "33603696752";
+
+  // ✅ Blocage silencieux : jour J + lendemain bloqués => min = aujourd’hui + 2 jours
+  const MIN_LEAD_DAYS = 2;
+
+  // Parts layer cake
+  const layerPartsBySize = {
+    "15": "≈ 6–8 parts",
+    "20": "≈ 10–12 parts",
+    "30": "≈ 18–24 parts"
+  };
+
+  // Layer cake flavors
+  const layerFlavorsNature = [
+    "Framboise",
+    "Passion",
+    "Coco",
+    "Chocolat",
+    "Chocolat praliné",
+    "Chantilly nature",
+    "Chantilly & morceaux d’abricots",
+    "Chantilly & morceaux de cocktail de fruits"
+  ];
+
+  // Base chocolat
+  const layerFlavorsChoco = [
+    "Chocolat",
+    "Chocolat praliné",
+    "Chantilly nature",
+    "Chantilly + chocolat",
+    "Chantilly + chocolat praliné"
+  ];
+
+  // Créoles pricing
+  const CREOLE_BASE_PRICE = 35;
+  const CREOLE_TWO_FLAVORS_EXTRA = 3;
+
+  // Elements
+  const elCategory = document.getElementById("category");
+  const elQty = document.getElementById("qty");
+  const elPickupDate = document.getElementById("pickupDate");
+  const elPickupSlot = document.getElementById("pickupSlot");
+  const elBtn = document.getElementById("btn");
+
+  // Blocks
+  const layerBlock = document.getElementById("layerBlock");
+  const bucheBlock = document.getElementById("bucheBlock");
+  const creoleBlock = document.getElementById("creoleBlock");
+
+  // Layer
+  const elLayerBase = document.getElementById("layerBase");
+  const elLayerFlavor = document.getElementById("layerFlavor");
+  const elLayerSize = document.getElementById("layerSize");
+  const elLayerParts = document.getElementById("layerParts");
+
+  // Buche
+  const elBucheFlavor = document.getElementById("bucheFlavor");
+
+  // Creole
+  const elCreoleType = document.getElementById("creoleType");
+  const elGaletteOptions = document.getElementById("galetteOptions");
+  const elCreoleFlavor1 = document.getElementById("creoleFlavor1");
+  const elTwoFlavors = document.getElementById("twoFlavors");
+  const elFlavor2Block = document.getElementById("flavor2Block");
+  const elCreoleFlavor2 = document.getElementById("creoleFlavor2");
+  const elCreolePriceLine = document.getElementById("creolePriceLine");
+
+  // Customer
+  const elName = document.getElementById("name");
+  const elCustomerPhone = document.getElementById("customerPhone");
+  const elNotes = document.getElementById("notes");
+
+  function toISODate(d){
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const dd = String(d.getDate()).padStart(2,"0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function setMinPickupDate(){
+    const now = new Date();
+    const minDt = new Date(now.getFullYear(), now.getMonth(), now.getDate() + MIN_LEAD_DAYS);
+    const minDateStr = toISODate(minDt);
+    elPickupDate.min = minDateStr;
+
+    if(!elPickupDate.value){
+      elPickupDate.value = minDateStr;
+    } else if(elPickupDate.value < minDateStr){
+      elPickupDate.value = minDateStr;
+    }
+  }
+
+  function leadTimeOk(){
+    if(!elPickupDate.value) return false;
+    const now = new Date();
+    const minDt = new Date(now.getFullYear(), now.getMonth(), now.getDate() + MIN_LEAD_DAYS);
+    const minStr = toISODate(minDt);
+    return elPickupDate.value >= minStr;
+  }
+
+  function showBlocks(){
+    const cat = elCategory.value;
+    layerBlock.style.display  = (cat === "Layer Cake") ? "block" : "none";
+    bucheBlock.style.display  = (cat === "Gâteau roulé (bûche)") ? "block" : "none";
+    creoleBlock.style.display = (cat === "Gâteaux créoles") ? "block" : "none";
+  }
+
+  function setLayerFlavorOptions(base){
+    elLayerFlavor.innerHTML = "";
+    const list = base === "Nature" ? layerFlavorsNature : (base === "Chocolat" ? layerFlavorsChoco : []);
+    if(!list.length){
+      elLayerFlavor.disabled = true;
+      const opt = document.createElement("option");
+      opt.textContent = "Choisir d’abord une base…";
+      opt.disabled = true; opt.selected = true; opt.value = "";
+      elLayerFlavor.appendChild(opt);
+      return;
+    }
+    elLayerFlavor.disabled = false;
+
+    const head = document.createElement("option");
+    head.textContent = "Choisir…";
+    head.disabled = true; head.selected = true; head.value = "";
+    elLayerFlavor.appendChild(head);
+
+    list.forEach(v=>{
+      const opt = document.createElement("option");
+      opt.value = v; opt.textContent = v;
+      elLayerFlavor.appendChild(opt);
+    });
+  }
+
+  function updateLayerParts(){
+    const s = elLayerSize.value;
+    if(layerPartsBySize[s]){
+      elLayerParts.style.display = "inline-block";
+      elLayerParts.textContent = `Nombre de parts : ${layerPartsBySize[s]}`;
+    } else {
+      elLayerParts.style.display = "none";
+      elLayerParts.textContent = "";
+    }
+  }
+
+  function updateCreoleUI(){
+    const type = elCreoleType.value;
+
+    if(type === "Gâteau à l’ananas"){
+      // Pas de parfums
+      elGaletteOptions.style.display = "none";
+      elTwoFlavors.checked = false;
+      elFlavor2Block.style.display = "none";
+      elCreoleFlavor1.value = "";
+      elCreoleFlavor2.value = "";
+      elCreolePriceLine.innerHTML = `<b>Prix :</b> <b>${CREOLE_BASE_PRICE} €</b>`;
+      return;
+    }
+
+    if(type === "Galette créole"){
+      elGaletteOptions.style.display = "block";
+      updateCreolePrice();
+      return;
+    }
+
+    elGaletteOptions.style.display = "none";
+    elCreolePriceLine.innerHTML = `<b>Prix :</b> —`;
+  }
+
+  function updateCreolePrice(){
+    if(elCreoleType.value !== "Galette créole") return;
+    const price = CREOLE_BASE_PRICE + (elTwoFlavors.checked ? CREOLE_TWO_FLAVORS_EXTRA : 0);
+    elCreolePriceLine.innerHTML = `<b>Prix :</b> <b>${price} €</b>`;
+  }
+
+  function validateAndToggle(){
+    const qtyOk  = (parseInt(elQty.value, 10) >= 1);
+    const catOk  = !!elCategory.value;
+    const nameOk = !!elName.value.trim();
+    const dateOk = !!elPickupDate.value && leadTimeOk();
+    const slotOk = !!elPickupSlot.value;
+
+    let productOk = false;
+
+    if(elCategory.value === "Layer Cake"){
+      productOk = !!(elLayerBase.value && elLayerFlavor.value && elLayerSize.value);
+    } else if(elCategory.value === "Gâteau roulé (bûche)"){
+      productOk = !!elBucheFlavor.value;
+    } else if(elCategory.value === "Gâteaux créoles"){
+      const type = elCreoleType.value;
+      if(type === "Gâteau à l’ananas"){
+        productOk = true;
+      } else if(type === "Galette créole"){
+        if(!elCreoleFlavor1.value) productOk = false;
+        else if(elTwoFlavors.checked && !elCreoleFlavor2.value) productOk = false;
+        else productOk = true;
+      } else {
+        productOk = false;
+      }
+    }
+
+    elBtn.disabled = !(qtyOk && catOk && productOk && nameOk && dateOk && slotOk);
+  }
+
+  // Events
+  elCategory.addEventListener("change", ()=>{ showBlocks(); validateAndToggle(); });
+  elQty.addEventListener("input", validateAndToggle);
+
+  // Layer (ordre : base -> goût -> taille)
+  elLayerBase.addEventListener("change", ()=>{
+    setLayerFlavorOptions(elLayerBase.value);
+    elLayerSize.value = "";
+    updateLayerParts();
+    validateAndToggle();
+  });
+  elLayerFlavor.addEventListener("change", validateAndToggle);
+  elLayerSize.addEventListener("change", ()=>{ updateLayerParts(); validateAndToggle(); });
+
+  // Buche
+  elBucheFlavor.addEventListener("change", validateAndToggle);
+
+  // Creole
+  elCreoleType.addEventListener("change", ()=>{ updateCreoleUI(); validateAndToggle(); });
+  elCreoleFlavor1.addEventListener("change", validateAndToggle);
+  elTwoFlavors.addEventListener("change", ()=>{
+    elFlavor2Block.style.display = elTwoFlavors.checked ? "block" : "none";
+    if(!elTwoFlavors.checked) elCreoleFlavor2.value = "";
+    updateCreolePrice();
+    validateAndToggle();
+  });
+  elCreoleFlavor2.addEventListener("change", ()=>{ updateCreolePrice(); validateAndToggle(); });
+
+  // Nom / Date / Slot / Phone / Notes
+  elName.addEventListener("input", validateAndToggle);
+  elPickupDate.addEventListener("change", validateAndToggle);
+  elPickupSlot.addEventListener("change", validateAndToggle);
+  elCustomerPhone.addEventListener("input", validateAndToggle);
+  elNotes.addEventListener("input", validateAndToggle);
+
+  // Send to WhatsApp
+  elBtn.addEventListener("click", ()=>{
+    const cat = elCategory.value;
+    const qty = parseInt(elQty.value,10) || 1;
+
+    const lines = [
+      "Bonjour 😊, je souhaite passer commande :",
+      `• Catégorie : ${cat}`,
+      `• Quantité : ${qty}`,
+      `• Nom : ${elName.value.trim()}`,
+      `• Retrait : ${elPickupDate.value} — ${elPickupSlot.value}`
+    ];
+
+    const phone = elCustomerPhone.value.trim();
+    if(phone) lines.push(`• Téléphone : ${phone}`);
+
+    if(cat === "Layer Cake"){
+      const parts = layerPartsBySize[elLayerSize.value] || "—";
+      lines.push(`• Produit : Layer Cake`);
+      lines.push(`• Base : ${elLayerBase.value}`);
+      lines.push(`• Goût : ${elLayerFlavor.value}`);
+      lines.push(`• Taille : ${elLayerSize.value} cm (${parts})`);
+      lines.push(`• Prix : à partir de 45 €`);
+    }
+
+    if(cat === "Gâteau roulé (bûche)"){
+      lines.push(`• Produit : Gâteau roulé (bûche)`);
+      lines.push(`• Longueur : ≈ 30 cm`);
+      lines.push(`• Parts : ≈ 8–10 parts`);
+      lines.push(`• Parfum : ${elBucheFlavor.value}`);
+      lines.push(`• Prix : 25 €`);
+    }
+
+    if(cat === "Gâteaux créoles"){
+      lines.push(`• Taille : ≈ 34 cm`);
+      lines.push(`• Parts : ≈ 12–15 parts`);
+
+      const type = elCreoleType.value;
+
+      if(type === "Gâteau à l’ananas"){
+        lines.push(`• Produit : Gâteau à l’ananas`);
+        lines.push(`• Prix : ${CREOLE_BASE_PRICE} €`);
+      } else {
+        const two = elTwoFlavors.checked;
+        const price = CREOLE_BASE_PRICE + (two ? CREOLE_TWO_FLAVORS_EXTRA : 0);
+        lines.push(`• Produit : Galette créole`);
+        if(two){
+          lines.push(`• Parfums : ${elCreoleFlavor1.value} + ${elCreoleFlavor2.value}`);
+        } else {
+          lines.push(`• Parfum : ${elCreoleFlavor1.value}`);
+        }
+        lines.push(`• Prix : ${price} €`);
+      }
+    }
+
+    const notes = elNotes.value.trim();
+    if(notes) lines.push(`• Précisions : ${notes}`);
+
+    lines.push("");
+    lines.push("Merci ✨");
+
+    const text = encodeURIComponent(lines.join("\n"));
+    window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+  });
+
+  // Init
+  setMinPickupDate();
+  showBlocks();
+  setLayerFlavorOptions("");
+  updateLayerParts();
+  updateCreoleUI();
+  validateAndToggle();
+</script>
+</body>
+</html>
